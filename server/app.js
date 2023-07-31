@@ -20,9 +20,7 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res
     .status(200)
-    .send(
-      'hello world!!! - WELCOME TO THE DEVELOPER PROFILES PROJECT.\n.................\n\nAll endpoints.\n\n1. /create-profile.\n2. /get-all-profiles.\n3. /update-profile.\n4. /delete-profile.'
-    );
+    .send('hello world!!! - WELCOME TO THE DEVELOPER PROFILES PROJECT.');
 });
 
 app.use('/api/v1/profiles', profilesRouter);
