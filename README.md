@@ -6,7 +6,7 @@ The project is for a Youtube MERN stack tutorial series.
 
 ## Live site
 
-The project is live here - 
+The project is live here - https://developer-profiles-project-youtube.vercel.app/
 
 ## Youtube link
 
