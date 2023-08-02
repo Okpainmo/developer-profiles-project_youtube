@@ -10,10 +10,10 @@
     "express": "^4.18.2",
     "mongoose": "^7.4.1"
   },
-  "engines": {
-    "node": ">=14"
-  },
   "devDependencies": {
     "nodemon": "^3.0.1"
+  },
+   "engines": {
+    "node": ">=14"
   }
 }

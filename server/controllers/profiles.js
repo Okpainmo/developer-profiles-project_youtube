@@ -1,7 +1,7 @@
 import profileSchema from '../models/profileModel.js';
 
 // description: Create a new profile
-// route: POST | "/api/v1/profiles/create-profile"
+// request | route: POST | "/api/v1/profiles/create-profile"
 // access: Public
 
 export const createProfile = async (req, res) => {
@@ -34,12 +34,18 @@ export const createProfile = async (req, res) => {
 };
 
 // description: Get all profiles
-// route: GET | "/api/v1/get-all-profiles"
+// request | route: GET | "/api/v1/profiles/get-all-profiles"
 // access: Public
 
 export const getAllProfiles = async (req, res) => {
   try {
     const allProfiles = await profileSchema.find({});
+
+    if (!allProfiles) {
+      res.status(404).json({
+        responseMessage: 'no profiles found: fetch failed',
+      });
+    }
 
     res.status(200).json({
       responseMessage: 'all profiles fetched successfully',
@@ -48,14 +54,42 @@ export const getAllProfiles = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
-      responseMessage: 'profile creation failed: please try again',
+      responseMessage: 'request unsuccessful',
       error: error.message,
     });
   }
 };
 
-// description: Delete Profile
-// route: POST | "/api/v1/edit-profile"
+// description: Get single profile
+// request | route: GET | "/api/v1/profiles/get-profile/:id"
+// access: Public
+
+export const getProfile = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const profile = await profileSchema.findOne({ _id: id });
+
+    if (!profile) {
+      return res.status(404).json({
+        responseMessage: `profile with id: ${id} not found`,
+      });
+    }
+
+    res.status(200).json({
+      responseMessage: 'profile fetched successfully',
+      profile,
+    });
+  } catch (error) {
+    res.status(500).json({
+      responseMessage: 'request unsuccessful',
+      error: error.message,
+    });
+  }
+};
+
+// description: Update profile
+// request | route: PATCH | "/api/v1/profiles/update-profile/:id"
 // access: Public
 
 export const updateProfile = async (req, res) => {
@@ -99,8 +133,8 @@ export const updateProfile = async (req, res) => {
   }
 };
 
-// description: Delete Profile
-// route: POST | "/api/v1/delete-profile"
+// description: Delete profile
+// request | route: DELETE | "/api/v1/profiles/delete-profile/:id"
 // access: Public
 
 export const deleteProfile = async (req, res) => {
