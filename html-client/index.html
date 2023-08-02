@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- style import-->
+
+  <link rel="stylesheet" href="./styles/dist/main-output.css" />
+
+  <!-- google fonts import -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&family=Poppins&display=swap" rel="stylesheet">
+
+  <!-- title -->
+
+  <title>
+    Home | full stack project with the MERN stack, tailwind-css, and html.
+  </title>
+</head>
+
+<body>
+
+
+  <main class="main-wrapper bg-blue-50 min-h-screen pb-[100px]">
+    <!-- modal-overlay -->
+
+    <section id="modalOverlay"
+      class="px-3 fixed left-0 right-0 top-0 min-h-screen hidden w-full justify-center items-center"
+      style="background-color: rgba(22, 21, 21, 0.8)">
+      <div class="confirm-process-modal bg-white p-6 rounded w-full sm:w-[400px] sm:mx-auto">
+        <h3 class='text-lg leading-6 text-gray-900 poppins font-bold'>
+          Delete an entry
+        </h3>
+        <p class='mt-4 text-sm text-gray-500'>
+          You are about to delete a developer profile. Are you sure you want to
+          continue?
+        </p>
+        <div class='mt-6 flex gap-3' id="cancelDeleteProfileButton">
+          <button type='button'
+            class='poppins inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2'>
+            No, thanks!
+          </button>
+          <button type='button' id="confirmDeleteProfileButton"
+            class='poppins inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2'>
+            Yes delete.
+          </button>
+        </div>
+      </div>
+    </section>
+    <div class="bg-blue-50 px-3 pt-6 pb-10 sm:px-10 md:px-6 xl:px-[10%]">
+      <nav class="flex gap-4 justify-between items-center w-full">
+        <div class="flex gap-3 items-center text-[14px] sm:text-[16px]">
+          <div class="font-bold poppins">Developer Profiles</div>
+          <div class="px-2 py-1 bg-blue-900 text-white min-w-[20px] rounded font-bold text-center w-[50px]"
+            id="userCount">
+            X
+          </div>
+        </div>
+        <a href="./pages/add-profile.html"
+          class="px-6 py-2 font-bold bg-black text-white rounded-[30px] text-center text-[12px] sm:text-[16px] poppins">
+          Add Profile
+        </a>
+      </nav>
+      <section
+        class="user-cards-wrapper mt-8 sm:mt-20 flex flex-col gap-6 md:mx-auto md:gap-y-12 justify-center md:gap-x-16 md:flex md:flex-wrap md:flex-row"
+        id="userCardsWrapper">
+        <p class="my-40 text-center text-gray-400 text-[20px] mx-auto">
+          loading data...
+        </p>
+      </section>
+    </div>
+  </main>
+
+
+  <!-- axios import -->
+
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  <!-- local script import-->
+
+  <script src="./scripts/main.js"></script>
+</body>
+
+</html>
