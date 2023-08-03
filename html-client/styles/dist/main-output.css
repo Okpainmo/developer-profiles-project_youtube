@@ -734,10 +734,6 @@ video {
   margin-top: 2rem;
 }
 
-.mt-\[100px\] {
-  margin-top: 100px;
-}
-
 .box-border {
   box-sizing: border-box;
 }
@@ -1699,10 +1695,6 @@ video {
 
 .rounded {
   border-radius: 0.25rem;
-}
-
-.rounded-\[30px\] {
-  border-radius: 30px;
 }
 
 .rounded-full {

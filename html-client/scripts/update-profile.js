@@ -15,8 +15,30 @@ const id = new URLSearchParams(urlParams).get('id');
 
 // console.log(id);
 
+const url = `https://developer-profiles-project-youtube.onrender.com/api/v1/profiles/get-profile/${id}`;
+
+const handleFetchData = async () => {
+  const response = await fetch(url);
+  const fetchedData = await response.json();
+
+  if (
+    fetchedData &&
+    fetchedData.responseMessage === 'profile fetched successfully'
+  ) {
+    fullName.value = fetchedData.profile.fullName;
+    email.value = fetchedData.profile.email;
+    about.value = fetchedData.profile.about;
+    website.value = fetchedData.profile.website;
+
+    // console.log(fetchedData.profile);
+  }
+};
+
+handleFetchData();
+
 async function handleUpdateProfile(e) {
   e.preventDefault();
+
   preLoaderModal_Loading.style.display = 'block';
 
   const updateToProfile = {
@@ -50,3 +72,5 @@ async function handleUpdateProfile(e) {
 }
 
 form.addEventListener('submit', handleUpdateProfile);
+
+
