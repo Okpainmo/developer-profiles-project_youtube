@@ -51,11 +51,11 @@ function AddProfile() {
   }
 
   return (
-    <main className='mt-[60px] mb-16 px-3 sm:px-[10%]'>
+    <main className='mt-[60px] mb-16 px-3 sm:px-[10%] relative'>
       {/* 1. pre-loader modal - loading  */}
 
       <div
-        className={`pre-loader-modal_loading text-center mb-[30px] ${
+        className={`pre-loader-modal_loading text-center mb-[30px] absolute top-0 w-[350px] left-0 right-0 m-auto ${
           showLoadingModal ? 'block' : 'hidden'
         }`}
       >
@@ -67,7 +67,7 @@ function AddProfile() {
       {/* 2. pre-loader modal - success */}
 
       <div
-        className={`pre-loader-modal_success text-center mb-[30px] ${
+        className={`pre-loader-modal_success text-center mb-[30px] absolute top-0 w-[350px] left-0 right-0 m-auto ${
           showSuccessModal ? 'block' : 'hidden'
         }`}
       >
