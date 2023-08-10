@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom';
 
 function UpdateProfilePageWrapper() {
   return (
-    <main className='my-[100px] px-3 sm:px-[10%]'>
+    <main className='mt-[60px] mb-16 px-3 sm:px-[10%]'>
       <Outlet />
     </main>
   );

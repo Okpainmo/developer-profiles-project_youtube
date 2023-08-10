@@ -119,7 +119,7 @@ function UpdateProfile() {
       </header>
       <section className='form-wrapper w-full md:w-[600px] mx-auto'>
         <form onSubmit={handleUpdateProfile} className='update-profile-form'>
-          <div className='full-name-and-email-wrapper flex flex-col gap-6 mt-8 w-full'>
+          <div className='full-name-and-email-wrapper flex flex-col gap-4 mt-8 w-full'>
             <div className='input-group flex flex-col'>
               <label className='font-bold poppins' htmlFor='fullName'>
                 Full name

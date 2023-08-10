@@ -51,7 +51,7 @@ function AddProfile() {
   }
 
   return (
-    <main className='my-[100px] px-3 sm:px-[10%]'>
+    <main className='mt-[60px] mb-16 px-3 sm:px-[10%]'>
       {/* 1. pre-loader modal - loading  */}
 
       <div
@@ -85,7 +85,7 @@ function AddProfile() {
       </header>
       <section className='form-wrapper w-full md:w-[600px] mx-auto'>
         <form onSubmit={handleCreateProfile} className='add-profile-form'>
-          <div className='full-name-and-email-wrapper flex flex-col gap-6 mt-8 w-full'>
+          <div className='full-name-and-email-wrapper flex flex-col gap-4 mt-8 w-full'>
             <div className='input-group flex flex-col'>
               <label className='font-bold poppins' htmlFor='fullName'>
                 Full name
