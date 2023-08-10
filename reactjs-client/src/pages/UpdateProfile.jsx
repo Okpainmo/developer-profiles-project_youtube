@@ -153,7 +153,7 @@ function UpdateProfile() {
               />
             </div>
           </div>
-          <div className='website-and-about-wrapper flex flex-col gap-6 mt-8 w-full'>
+          <div className='website-and-about-wrapper flex flex-col gap-4 mt-8 w-full'>
             <div className='input-group flex flex-col'>
               <label className='font-bold poppins' htmlFor='website'>
                 Website
