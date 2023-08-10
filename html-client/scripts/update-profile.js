@@ -31,6 +31,10 @@ const handleFetchData = async () => {
     website.value = fetchedData.profile.website;
 
     // console.log(fetchedData.profile);
+  } else {
+    alert(
+      'The requested profile could not be fetched. Please check your network and try again'
+    );
   }
 };
 
@@ -66,9 +70,11 @@ async function handleUpdateProfile(e) {
     website.value = '';
 
     setTimeout(() => {
+      preLoaderModal_Success.style.display = 'none';
+
       window.location.href = '../index.html';
     }, 3000);
-  }
+  } 
 }
 
 form.addEventListener('submit', handleUpdateProfile);

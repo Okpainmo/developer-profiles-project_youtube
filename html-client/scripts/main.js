@@ -7,7 +7,9 @@ const confirmDeleteProfileButton = document.getElementById(
 const cancelDeleteProfileButton = document.getElementById(
   'cancelDeleteProfileButton'
 );
-let taskId = '';
+const cardsWrapper = document.getElementById('profileCardsWrapper');
+
+let profileId = null;
 
 const url =
   'https://developer-profiles-project-youtube.onrender.com/api/v1/profiles/get-all-profiles';
@@ -19,18 +21,34 @@ const handleFetchData = async () => {
   //   'https://developer-profiles-project-youtube.onrender.com/api/v1/profiles/get-all-profiles'
   // );
 
-  // return fetchedData.data;
+  // if (fetchedData) {
+  //   return fetchedData.data;
+  // } else {
+  //   cardsWrapper.innerHTML = `
+  //   <p>Developer profiles could not be fetched. Please try again</p>
+  //   `;
+
+  //   return;
+  // }
 
   // implementing data fetching with the fetch API
 
   const response = await fetch(url);
-  const fetchedData = response.json();
+  const fetchedData = await response.json();
 
-  return fetchedData;
+  if (
+    fetchedData &&
+    fetchedData.responseMessage === 'all profiles fetched successfully'
+  ) {
+    return fetchedData;
+  } else {
+    return (cardsWrapper.innerHTML = `
+    <p class="my-40 text-center text-gray-400 text-[20px] mx-auto">Developer profiles could not be fetched. Please check your network and try again</p>
+    `);
+  }
 };
 
 const handleGetProfiles = async function () {
-  const cardsWrapper = document.getElementById('userCardsWrapper');
   const userCount = document.getElementById('userCount');
   const profilesData = await handleFetchData();
   // console.log(profilesData);
@@ -56,7 +74,7 @@ const handleGetProfiles = async function () {
                 ${avatarAlphabet}
               </div>
               <div class="flex gap-6 items-center">
-                <a class="edit-profile-page-link" href="./pages/update-profile.html?id=${_id}">
+                <a class="update-profile-page-link" href="./pages/update-profile.html?id=${_id}">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                     <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32l8.4-8.4z" />
                     <path d="M5.25 5.25a3 3 0 00-3 3v10.5a3 3 0 003 3h10.5a3 3 0 003-3V13.5a.75.75 0 00-1.5 0v5.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5V8.25a1.5 1.5 0 011.5-1.5h5.25a.75.75 0 000-1.5H5.25z" />
@@ -114,8 +132,8 @@ async function handleShowOverlay() {
     showOverlayButtons.forEach((each) => {
       each.addEventListener('click', (e) => {
         modalOverlay.style.display = 'flex';
-        taskId = e.target.dataset.id;
-        // console.log(taskId);
+        profileId = e.target.dataset.id;
+        // console.log(profileId);
       });
     });
   }
@@ -125,7 +143,7 @@ handleShowOverlay();
 
 async function handleConfirmDeleteProfile() {
   const deletedProfile = await axios.delete(
-    `https://developer-profiles-project-youtube.onrender.com/api/v1/profiles/delete-profile/${taskId}`
+    `https://developer-profiles-project-youtube.onrender.com/api/v1/profiles/delete-profile/${profileId}`
   );
 
   modalOverlay.style.display = 'none';

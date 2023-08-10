@@ -39,6 +39,8 @@ async function handleAddProfile(e) {
     website.value = '';
 
     setTimeout(() => {
+      preLoaderModal_Success.style.display = 'none';
+
       window.location.href = '../index.html';
     }, 3000);
   }
