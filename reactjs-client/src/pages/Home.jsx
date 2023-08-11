@@ -113,7 +113,7 @@ function Home() {
         </div>
       </section>
       <div className='bg-blue-50 px-3 pt-6 pb-10 sm:px-10 md:px-6 xl:px-[10%]'>
-        <Navbar />
+        <Navbar profilesData={profilesData} />
         <ProfileCardsWrapper
           profilesData={profilesData}
           handleShowModal={handleShowModal}

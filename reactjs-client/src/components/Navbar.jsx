@@ -1,7 +1,7 @@
 // import React from 'react'
 import { Link } from 'react-router-dom';
 
-function Navbar() {
+function Navbar({ profilesData }) {
   return (
     <nav className='navbar flex gap-4 justify-between items-center w-full'>
       <div className='flex gap-3 items-center text-[14px] sm:text-[16px]'>
@@ -10,7 +10,7 @@ function Navbar() {
           className='px-2 py-1 bg-blue-900 text-white min-w-[20px] rounded font-bold text-center w-[50px]'
           id='userCount'
         >
-          X
+          {profilesData ? profilesData.profilesCount : 'X'}
         </div>
       </div>
       <Link

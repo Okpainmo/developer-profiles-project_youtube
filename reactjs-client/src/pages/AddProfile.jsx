@@ -55,11 +55,11 @@ function AddProfile() {
       {/* 1. pre-loader modal - loading  */}
 
       <div
-        className={`pre-loader-modal_loading text-center mb-[30px] absolute top-0 w-[350px] left-0 right-0 m-auto ${
+        className={`pre-loader-modal_loading text-center mb-[30px] absolute top-0 w-[350px]  sm:w-[500px] left-0 right-0 mx-auto ${
           showLoadingModal ? 'block' : 'hidden'
         }`}
       >
-        <p className='mt-4 text-sm px-4 py-3 font-semi-bold w-full sm:w-[500px] sm:mx-auto bg-blue-50 text-blue-700'>
+        <p className='mt-4 text-sm px-4 py-3 font-semi-bold w-full bg-blue-50 text-blue-700'>
           Your profile is being created please wait...
         </p>
       </div>
@@ -67,11 +67,11 @@ function AddProfile() {
       {/* 2. pre-loader modal - success */}
 
       <div
-        className={`pre-loader-modal_success text-center mb-[30px] absolute top-0 w-[350px] left-0 right-0 m-auto ${
+        className={`pre-loader-modal_success text-center mb-[30px] absolute top-0 w-[350px] sm:w-[500px] left-0 right-0 mx-auto ${
           showSuccessModal ? 'block' : 'hidden'
         }`}
       >
-        <p className='mt-4 text-sm px-4 py-3 font-semi-bold w-full sm:w-[500px] sm:mx-auto bg-green-50 text-green-700'>
+        <p className='mt-4 text-sm px-4 py-3 font-semi-bold w-full bg-green-50 text-green-700'>
           Profile created successfully.
         </p>
       </div>
@@ -131,7 +131,7 @@ function AddProfile() {
                 onChange={(e) => {
                   setProfileData({ ...profileData, website: e.target.value });
                 }}
-                placeholder='website'
+                placeholder='https://websiteexample.com'
                 required={true}
                 className='rounded border px-3 outline-none py-2 mt-3 text-gray-600'
               />
