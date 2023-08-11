@@ -49,13 +49,13 @@ const handleFetchData = async () => {
 };
 
 const handleGetProfiles = async function () {
-  const userCount = document.getElementById('userCount');
+  const profilesCount = document.getElementById('profilesCount');
   const profilesData = await handleFetchData();
   // console.log(profilesData);
 
   if (profilesData.allProfiles.length < 1) {
     cardsWrapper.innerHTML = 'No Profiles created yet';
-    userCount.innerHTML = profiles.length;
+    profilesCount.innerHTML = profiles.length;
   }
 
   if (profilesData.allProfiles.length > 0) {
@@ -116,7 +116,7 @@ const handleGetProfiles = async function () {
     });
 
     cardsWrapper.innerHTML = profiles.join(' ');
-    userCount.innerHTML = profilesData.allProfiles.length;
+    profilesCount.innerHTML = profilesData.allProfiles.length;
   }
 };
 
