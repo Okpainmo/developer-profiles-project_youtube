@@ -9,7 +9,7 @@ const cancelDeleteProfileButton = document.getElementById(
 );
 const cardsWrapper = document.getElementById('profileCardsWrapper');
 
-let profileId = null;
+let profileId: string;
 
 const url =
   'https://developer-profiles-project-youtube.onrender.com/api/v1/profiles/get-all-profiles';
@@ -42,7 +42,8 @@ const handleFetchData = async () => {
   ) {
     return fetchedData;
   } else {
-    return (cardsWrapper.innerHTML = `
+    cardsWrapper &&
+      (cardsWrapper.innerHTML = `
     <p class="my-40 text-center text-gray-400 text-[20px] mx-auto">Developer profiles could not be fetched. Please check your network and try again</p>
     `);
   }
@@ -54,12 +55,20 @@ const handleGetProfiles = async function () {
   // console.log(profilesData);
 
   if (profilesData.allProfiles.length < 1) {
-    cardsWrapper.innerHTML = 'No Profiles created yet';
-    // profilesCount.innerHTML = profiles.length;
+    cardsWrapper && (cardsWrapper.innerHTML = 'No Profiles created yet');
+    // profilesCount && profilesCount.innerHTML = profiles.length;
   }
 
+  type Profile = {
+    fullName: string;
+    website: string;
+    email: string;
+    about: string;
+    _id: string | number;
+  };
+
   if (profilesData.allProfiles.length > 0) {
-    const profiles = profilesData.allProfiles.map((each) => {
+    const profiles = profilesData.allProfiles.map((each: Profile) => {
       const avatarAlphabet = each.fullName.slice(0, 1).toUpperCase();
       const { website, email, about, _id } = each;
 
@@ -115,8 +124,9 @@ const handleGetProfiles = async function () {
         `;
     });
 
-    cardsWrapper.innerHTML = profiles.join(' ');
-    profilesCount.innerHTML = profilesData.allProfiles.length;
+    cardsWrapper && (cardsWrapper.innerHTML = profiles.join(' '));
+    profilesCount &&
+      (profilesCount.innerHTML = profilesData.allProfiles.length);
   }
 };
 
@@ -131,9 +141,10 @@ async function handleShowOverlay() {
     );
 
     showOverlayButtons.forEach((each) => {
-      each.addEventListener('click', (e) => {
-        modalOverlay.style.display = 'flex';
-        profileId = e.target.dataset.id;
+      each.addEventListener('click', (e: Event) => {
+        modalOverlay && (modalOverlay.style.display = 'flex');
+        const dataId = (e.target as HTMLElement).dataset.id as string;
+        profileId = dataId;
         // console.log(profileId);
       });
     });
@@ -147,18 +158,20 @@ async function handleConfirmDeleteProfile() {
     `https://developer-profiles-project-youtube.onrender.com/api/v1/profiles/delete-profile/${profileId}`
   );
 
-  modalOverlay.style.display = 'none';
+  modalOverlay && (modalOverlay.style.display = 'none');
   console.log(deletedProfile);
   handleGetProfiles();
 }
 
-confirmDeleteProfileButton.addEventListener(
+confirmDeleteProfileButton?.addEventListener(
   'click',
   handleConfirmDeleteProfile
 );
 
 function handleCancelDeleteProfile() {
-  modalOverlay.style.display = 'none';
+  modalOverlay && (modalOverlay.style.display = 'none');
 }
 
-cancelDeleteProfileButton.addEventListener('click', handleCancelDeleteProfile);
+cancelDeleteProfileButton?.addEventListener('click', handleCancelDeleteProfile);
+
+// export default {};

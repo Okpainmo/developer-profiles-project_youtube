@@ -74,9 +74,7 @@ async function handleUpdateProfile(e) {
 
       window.location.href = '../index.html';
     }, 3000);
-  } 
+  }
 }
 
 form.addEventListener('submit', handleUpdateProfile);
-
-

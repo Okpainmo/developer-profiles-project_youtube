@@ -1,69 +1,61 @@
+"use strict";
 // global variables
-
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 const modalOverlay = document.getElementById('modalOverlay');
-const confirmDeleteProfileButton = document.getElementById(
-  'confirmDeleteProfileButton'
-);
-const cancelDeleteProfileButton = document.getElementById(
-  'cancelDeleteProfileButton'
-);
+const confirmDeleteProfileButton = document.getElementById('confirmDeleteProfileButton');
+const cancelDeleteProfileButton = document.getElementById('cancelDeleteProfileButton');
 const cardsWrapper = document.getElementById('profileCardsWrapper');
-
-let profileId = null;
-
-const url =
-  'https://developer-profiles-project-youtube.onrender.com/api/v1/profiles/get-all-profiles';
-
-const handleFetchData = async () => {
-  // implementing data fetching with axios
-
-  // const fetchedData = await axios.get(
-  //   'https://developer-profiles-project-youtube.onrender.com/api/v1/profiles/get-all-profiles'
-  // );
-
-  // if (fetchedData) {
-  //   return fetchedData.data;
-  // } else {
-  //   cardsWrapper.innerHTML = `
-  //   <p>Developer profiles could not be fetched. Please try again</p>
-  //   `;
-
-  //   return;
-  // }
-
-  // implementing data fetching with the fetch API
-
-  const response = await fetch(url);
-  const fetchedData = await response.json();
-
-  if (
-    fetchedData &&
-    fetchedData.responseMessage === 'all profiles fetched successfully'
-  ) {
-    return fetchedData;
-  } else {
-    return (cardsWrapper.innerHTML = `
+let profileId;
+const url = 'https://developer-profiles-project-youtube.onrender.com/api/v1/profiles/get-all-profiles';
+const handleFetchData = () => __awaiter(void 0, void 0, void 0, function* () {
+    // implementing data fetching with axios
+    // const fetchedData = await axios.get(
+    //   'https://developer-profiles-project-youtube.onrender.com/api/v1/profiles/get-all-profiles'
+    // );
+    // if (fetchedData) {
+    //   return fetchedData.data;
+    // } else {
+    //   cardsWrapper.innerHTML = `
+    //   <p>Developer profiles could not be fetched. Please try again</p>
+    //   `;
+    //   return;
+    // }
+    // implementing data fetching with the fetch API
+    const response = yield fetch(url);
+    const fetchedData = yield response.json();
+    if (fetchedData &&
+        fetchedData.responseMessage === 'all profiles fetched successfully') {
+        return fetchedData;
+    }
+    else {
+        cardsWrapper &&
+            (cardsWrapper.innerHTML = `
     <p class="my-40 text-center text-gray-400 text-[20px] mx-auto">Developer profiles could not be fetched. Please check your network and try again</p>
     `);
-  }
-};
-
-const handleGetProfiles = async function () {
-  const profilesCount = document.getElementById('profilesCount');
-  const profilesData = await handleFetchData();
-  // console.log(profilesData);
-
-  if (profilesData.allProfiles.length < 1) {
-    cardsWrapper.innerHTML = 'No Profiles created yet';
-    profilesCount.innerHTML = profiles.length;
-  }
-
-  if (profilesData.allProfiles.length > 0) {
-    const profiles = profilesData.allProfiles.map((each) => {
-      const avatarAlphabet = each.fullName.slice(0, 1).toUpperCase();
-      const { website, email, about, _id } = each;
-
-      return `
+    }
+});
+const handleGetProfiles = function () {
+    return __awaiter(this, void 0, void 0, function* () {
+        const profilesCount = document.getElementById('profilesCount');
+        const profilesData = yield handleFetchData();
+        // console.log(profilesData);
+        if (profilesData.allProfiles.length < 1) {
+            cardsWrapper && (cardsWrapper.innerHTML = 'No Profiles created yet');
+            // profilesCount && profilesCount.innerHTML = profiles.length;
+        }
+        if (profilesData.allProfiles.length > 0) {
+            const profiles = profilesData.allProfiles.map((each) => {
+                const avatarAlphabet = each.fullName.slice(0, 1).toUpperCase();
+                const { website, email, about, _id } = each;
+                return `
       <div
             class="card bg-white rounded p-5 sm:w-[80%] sm:mx-auto md:mx-0 md:w-[45%] lg:w-[30%]"
           >
@@ -113,52 +105,42 @@ const handleGetProfiles = async function () {
             </section>
           </div>
         `;
+            });
+            cardsWrapper && (cardsWrapper.innerHTML = profiles.join(' '));
+            profilesCount &&
+                (profilesCount.innerHTML = profilesData.allProfiles.length);
+        }
     });
-
-    cardsWrapper.innerHTML = profiles.join(' ');
-    profilesCount.innerHTML = profilesData.allProfiles.length;
-  }
 };
-
 handleGetProfiles();
-
-async function handleShowOverlay() {
-  const profilesData = await handleFetchData();
-
-  if (profilesData && profilesData.allProfiles.length > 0) {
-    const showOverlayButtons = document.querySelectorAll(
-      '.delete-profile-icon'
-    );
-
-    showOverlayButtons.forEach((each) => {
-      each.addEventListener('click', (e) => {
-        modalOverlay.style.display = 'flex';
-        profileId = e.target.dataset.id;
-        // console.log(profileId);
-      });
+function handleShowOverlay() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const profilesData = yield handleFetchData();
+        if (profilesData && profilesData.allProfiles.length > 0) {
+            const showOverlayButtons = document.querySelectorAll('.delete-profile-icon');
+            showOverlayButtons.forEach((each) => {
+                each.addEventListener('click', (e) => {
+                    modalOverlay && (modalOverlay.style.display = 'flex');
+                    const dataId = e.target.dataset.id;
+                    profileId = dataId;
+                    // console.log(profileId);
+                });
+            });
+        }
     });
-  }
 }
-
 handleShowOverlay();
-
-async function handleConfirmDeleteProfile() {
-  const deletedProfile = await axios.delete(
-    `https://developer-profiles-project-youtube.onrender.com/api/v1/profiles/delete-profile/${profileId}`
-  );
-
-  modalOverlay.style.display = 'none';
-  console.log(deletedProfile);
-  handleGetProfiles();
+function handleConfirmDeleteProfile() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const deletedProfile = yield axios.delete(`https://developer-profiles-project-youtube.onrender.com/api/v1/profiles/delete-profile/${profileId}`);
+        modalOverlay && (modalOverlay.style.display = 'none');
+        console.log(deletedProfile);
+        handleGetProfiles();
+    });
 }
-
-confirmDeleteProfileButton.addEventListener(
-  'click',
-  handleConfirmDeleteProfile
-);
-
+confirmDeleteProfileButton === null || confirmDeleteProfileButton === void 0 ? void 0 : confirmDeleteProfileButton.addEventListener('click', handleConfirmDeleteProfile);
 function handleCancelDeleteProfile() {
-  modalOverlay.style.display = 'none';
+    modalOverlay && (modalOverlay.style.display = 'none');
 }
-
-cancelDeleteProfileButton.addEventListener('click', handleCancelDeleteProfile);
+cancelDeleteProfileButton === null || cancelDeleteProfileButton === void 0 ? void 0 : cancelDeleteProfileButton.addEventListener('click', handleCancelDeleteProfile);
+// export default {};
