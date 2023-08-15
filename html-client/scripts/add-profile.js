@@ -42,7 +42,7 @@ async function handleAddProfile(e) {
       preLoaderModal_Success.style.display = 'none';
 
       window.location.href = '../index.html';
-    }, 3000);
+    }, 2000);
   }
 }
 

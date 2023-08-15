@@ -55,7 +55,7 @@ const handleGetProfiles = async function () {
 
   if (profilesData.allProfiles.length < 1) {
     cardsWrapper.innerHTML = 'No Profiles created yet';
-    profilesCount.innerHTML = profiles.length;
+    profilesCount.innerHTML = profilesData.allProfiles.length;
   }
 
   if (profilesData.allProfiles.length > 0) {
@@ -117,30 +117,50 @@ const handleGetProfiles = async function () {
 
     cardsWrapper.innerHTML = profiles.join(' ');
     profilesCount.innerHTML = profilesData.allProfiles.length;
-  }
-};
 
-handleGetProfiles();
+    // now invoke content the logic of the initial handleShowOverlay function
 
-async function handleShowOverlay() {
-  const profilesData = await handleFetchData();
-
-  if (profilesData && profilesData.allProfiles.length > 0) {
     const showOverlayButtons = document.querySelectorAll(
       '.delete-profile-icon'
     );
 
     showOverlayButtons.forEach((each) => {
       each.addEventListener('click', (e) => {
+        console.log('modal overlay invoked');
         modalOverlay.style.display = 'flex';
         profileId = e.target.dataset.id;
         // console.log(profileId);
       });
     });
   }
-}
+};
 
-handleShowOverlay();
+handleGetProfiles();
+
+/* Code(the handleShowOverlay function) is dormant since there is no page reload which should re-invoke it after we delete a profile. We
+could have equally re-invoked it inside the handleConfirmDeleteProfile function but it would cause a needless repetition of the handleFetchData function.
+*/ 
+
+/* async function handleShowOverlay() {
+  const profilesData = await handleFetchData();
+
+  if (profilesData && profilesData.allProfiles.length > 0) {
+    // const showOverlayButtons = document.querySelectorAll(
+    //   '.delete-profile-icon'
+    // );
+
+    // showOverlayButtons.forEach((each) => {
+    //   each.addEventListener('click', (e) => {
+    //     console.log('modal overlay invoked');
+    //     modalOverlay.style.display = 'flex';
+    //     profileId = e.target.dataset.id;
+    //     // console.log(profileId);
+    //   });
+    // });
+  }
+} */
+
+// handleShowOverlay();
 
 async function handleConfirmDeleteProfile() {
   const deletedProfile = await axios.delete(
