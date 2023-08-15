@@ -51,6 +51,13 @@ const handleGetProfiles = function () {
             cardsWrapper && (cardsWrapper.innerHTML = 'No Profiles created yet');
             // profilesCount && profilesCount.innerHTML = profiles.length;
         }
+        // type Profile = {
+        //   fullName: string;
+        //   website: string;
+        //   email: string;
+        //   about: string;
+        //   _id: string | number;
+        // };
         if (profilesData.allProfiles.length > 0) {
             const profiles = profilesData.allProfiles.map((each) => {
                 const avatarAlphabet = each.fullName.slice(0, 1).toUpperCase();

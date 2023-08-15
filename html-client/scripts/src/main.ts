@@ -59,16 +59,16 @@ const handleGetProfiles = async function () {
     // profilesCount && profilesCount.innerHTML = profiles.length;
   }
 
-  type Profile = {
-    fullName: string;
-    website: string;
-    email: string;
-    about: string;
-    _id: string | number;
-  };
+  // type Profile = {
+  //   fullName: string;
+  //   website: string;
+  //   email: string;
+  //   about: string;
+  //   _id: string | number;
+  // };
 
   if (profilesData.allProfiles.length > 0) {
-    const profiles = profilesData.allProfiles.map((each: Profile) => {
+    const profiles = profilesData.allProfiles.map((each: any) => {
       const avatarAlphabet = each.fullName.slice(0, 1).toUpperCase();
       const { website, email, about, _id } = each;
 
