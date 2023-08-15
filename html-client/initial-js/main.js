@@ -117,18 +117,8 @@ const handleGetProfiles = async function () {
 
     cardsWrapper.innerHTML = profiles.join(' ');
     profilesCount.innerHTML = profilesData.allProfiles.length;
-  }
-};
 
-handleGetProfiles();
-
-async function handleShowOverlay() {
-  const profilesData = await handleFetchData();
-
-  if (profilesData && profilesData.allProfiles.length > 0) {
-    const showOverlayButtons = document.querySelectorAll(
-      '.delete-profile-icon'
-    );
+    const showOverlayButtons = document.querySelectorAll('.delete-profile-icon');
 
     showOverlayButtons.forEach((each) => {
       each.addEventListener('click', (e) => {
@@ -138,9 +128,29 @@ async function handleShowOverlay() {
       });
     });
   }
-}
+};
 
-handleShowOverlay();
+handleGetProfiles();
+
+/* async function handleShowOverlay() {
+  const profilesData = await handleFetchData();
+
+  if (profilesData && profilesData.allProfiles.length > 0) {
+    // const showOverlayButtons = document.querySelectorAll(
+    //   '.delete-profile-icon'
+    // );
+
+    // showOverlayButtons.forEach((each) => {
+    //   each.addEventListener('click', (e) => {
+    //     modalOverlay.style.display = 'flex';
+    //     profileId = e.target.dataset.id;
+    //     // console.log(profileId);
+    //   });
+    // });
+  }
+} */
+
+// handleShowOverlay();
 
 async function handleConfirmDeleteProfile() {
   const deletedProfile = await axios.delete(

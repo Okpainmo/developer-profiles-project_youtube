@@ -56,7 +56,7 @@ async function handleAddProfile(e: Event) {
         (UpdateProfilePreLoaderModal_Success.style.display = 'none');
 
       window.location.href = '../index.html';
-    }, 3000);
+    }, 2000);
   }
 }
 

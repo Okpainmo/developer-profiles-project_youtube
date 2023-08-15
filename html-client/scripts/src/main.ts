@@ -127,12 +127,25 @@ const handleGetProfiles = async function () {
     cardsWrapper && (cardsWrapper.innerHTML = profiles.join(' '));
     profilesCount &&
       (profilesCount.innerHTML = profilesData.allProfiles.length);
+    
+     const showOverlayButtons = document.querySelectorAll(
+       '.delete-profile-icon'
+     );
+
+     showOverlayButtons.forEach((each) => {
+       each.addEventListener('click', (e: Event) => {
+         modalOverlay && (modalOverlay.style.display = 'flex');
+         const dataId = (e.target as HTMLElement).dataset.id as string;
+         profileId = dataId;
+         // console.log(profileId);
+       });
+     });
   }
 };
 
 handleGetProfiles();
 
-async function handleShowOverlay() {
+/* async function handleShowOverlay() {
   const profilesData = await handleFetchData();
 
   if (profilesData && profilesData.allProfiles.length > 0) {
@@ -149,9 +162,9 @@ async function handleShowOverlay() {
       });
     });
   }
-}
+} */
 
-handleShowOverlay();
+// handleShowOverlay();
 
 async function handleConfirmDeleteProfile() {
   const deletedProfile = await axios.delete(

@@ -116,14 +116,6 @@ const handleGetProfiles = function () {
             cardsWrapper && (cardsWrapper.innerHTML = profiles.join(' '));
             profilesCount &&
                 (profilesCount.innerHTML = profilesData.allProfiles.length);
-        }
-    });
-};
-handleGetProfiles();
-function handleShowOverlay() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const profilesData = yield handleFetchData();
-        if (profilesData && profilesData.allProfiles.length > 0) {
             const showOverlayButtons = document.querySelectorAll('.delete-profile-icon');
             showOverlayButtons.forEach((each) => {
                 each.addEventListener('click', (e) => {
@@ -135,8 +127,27 @@ function handleShowOverlay() {
             });
         }
     });
-}
-handleShowOverlay();
+};
+handleGetProfiles();
+/* async function handleShowOverlay() {
+  const profilesData = await handleFetchData();
+
+  if (profilesData && profilesData.allProfiles.length > 0) {
+    const showOverlayButtons = document.querySelectorAll(
+      '.delete-profile-icon'
+    );
+
+    showOverlayButtons.forEach((each) => {
+      each.addEventListener('click', (e: Event) => {
+        modalOverlay && (modalOverlay.style.display = 'flex');
+        const dataId = (e.target as HTMLElement).dataset.id as string;
+        profileId = dataId;
+        // console.log(profileId);
+      });
+    });
+  }
+} */
+// handleShowOverlay();
 function handleConfirmDeleteProfile() {
     return __awaiter(this, void 0, void 0, function* () {
         const deletedProfile = yield axios.delete(`https://developer-profiles-project-youtube.onrender.com/api/v1/profiles/delete-profile/${profileId}`);
