@@ -118,7 +118,7 @@ const handleGetProfiles = async function () {
     cardsWrapper.innerHTML = profiles.join(' ');
     profilesCount.innerHTML = profilesData.allProfiles.length;
 
-    // now invoke content the logic of the initial handleShowOverlay function
+    // implementing the previous handleShowOverlay function logic
 
     const showOverlayButtons = document.querySelectorAll(
       '.delete-profile-icon'
@@ -139,7 +139,7 @@ handleGetProfiles();
 
 /* Code(the handleShowOverlay function) is dormant since there is no page reload which should re-invoke it after we delete a profile. We
 could have equally re-invoked it inside the handleConfirmDeleteProfile function but it would cause a needless repetition of the handleFetchData function.
-*/ 
+*/
 
 /* async function handleShowOverlay() {
   const profilesData = await handleFetchData();
@@ -163,12 +163,11 @@ could have equally re-invoked it inside the handleConfirmDeleteProfile function 
 // handleShowOverlay();
 
 async function handleConfirmDeleteProfile() {
-  const deletedProfile = await axios.delete(
+  await axios.delete(
     `https://developer-profiles-project-youtube.onrender.com/api/v1/profiles/delete-profile/${profileId}`
   );
 
   modalOverlay.style.display = 'none';
-  console.log(deletedProfile);
   handleGetProfiles();
 }
 
