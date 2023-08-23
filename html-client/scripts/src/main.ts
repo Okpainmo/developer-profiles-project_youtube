@@ -1,4 +1,5 @@
 // global variables
+import axios from 'axios';
 
 const modalOverlay = document.getElementById('modalOverlay');
 const confirmDeleteProfileButton = document.getElementById(
@@ -123,15 +124,16 @@ const handleGetProfiles = async function () {
 handleGetProfiles();
 
 async function handleConfirmDeleteProfile() {
-  const deletedProfile: ProfilesDataSpecs & { deletedProfile: ProfileSpecs } =
-    await axios.delete(
-      `https://developer-profiles-project-youtube.onrender.com/api/v1/profiles/delete-profile/${profileId}`
-    );
+  await axios.delete<{
+    deletedProfile: ProfileSpecs;
+    responseMessage: string;
+  }>(
+    `https://developer-profiles-project-youtube.onrender.com/api/v1/profiles/delete-profile/${profileId}`
+  );
 
-  console.log(deletedProfile);
+  // console.log(deletedProfile);
 
   modalOverlay && (modalOverlay.style.display = 'none');
-  console.log(deletedProfile);
   handleGetProfiles();
 }
 

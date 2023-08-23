@@ -1,5 +1,4 @@
 "use strict";
-// global variables
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -9,6 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+// global variables
+const axios_1 = __importDefault(require("axios"));
 const modalOverlay = document.getElementById('modalOverlay');
 const confirmDeleteProfileButton = document.getElementById('confirmDeleteProfileButton');
 const cancelDeleteProfileButton = document.getElementById('cancelDeleteProfileButton');
@@ -113,10 +118,9 @@ const handleGetProfiles = function () {
 handleGetProfiles();
 function handleConfirmDeleteProfile() {
     return __awaiter(this, void 0, void 0, function* () {
-        const deletedProfile = yield axios.delete(`https://developer-profiles-project-youtube.onrender.com/api/v1/profiles/delete-profile/${profileId}`);
-        console.log(deletedProfile);
+        yield axios_1.default.delete(`https://developer-profiles-project-youtube.onrender.com/api/v1/profiles/delete-profile/${profileId}`);
+        // console.log(deletedProfile);
         modalOverlay && (modalOverlay.style.display = 'none');
-        console.log(deletedProfile);
         handleGetProfiles();
     });
 }
