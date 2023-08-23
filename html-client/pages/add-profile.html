@@ -76,30 +76,6 @@
               class="rounded border px-3 outline-none py-2 mt-3 text-gray-600"></textarea>
           </div>
         </div>
-        <!-- <div class="full-name-and-email-wrapper flex flex-col gap-4 mt-8 w-full">
-                                          <div class="input-group flex flex-col">
-                                            <label class="font-bold poppins" for="fullName">Full name</label>
-                                            <input id="fullName" type="text" placeholder="full name" required
-                                              class="rounded border px-3 outline-none py-2 mt-3 text-gray-600" />
-                                          </div>
-                                          <div class="input-group flex flex-col">
-                                            <label class="font-bold poppins" for="email">Email</label>
-                                            <input id="email" type="email" placeholder="email" required
-                                              class="rounded border px-3 outline-none py-2 mt-3 text-gray-600" />
-                                          </div>
-                                        </div>
-        <div class="website-and-about-wrapper flex flex-col gap-4 absolute top-[60px] left-0 right-0 m-auto mt-8 w-full">
-          <div class="input-group flex flex-col">
-            <label class="font-bold poppins" for="website">Website</label>
-            <input id="website" type="text" placeholder='https://websiteexample.com' required
-              class="rounded border px-3 outline-none py-2 mt-3 text-gray-600" />
-          </div>
-          <div class="input-group flex flex-col">
-            <label class="font-bold poppins" for="about">About</label>
-            <textarea id="about" placeholder="developer bio" type="text" rows="7" required
-              class="rounded border px-3 outline-none py-2 mt-3 text-gray-600"></textarea>
-          </div>
-        </div> -->
         <button type="submit"
           class="add-profile-form-button text-center w-full bg-blue-900 text-white px-6 py-3 mt-10 font-bold rounded poppins">
           Add profile
@@ -111,10 +87,11 @@
   <!-- axios import -->
 
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <!-- no need for this since we're using axios via npm in this case -->
 
   <!-- local script import-->
 
-  <script src="../scripts/dist/add-profile.js"></script>
+  <script type="module" src="../scripts/dist/add-profile.js"></script>
 </body>
 
 </html>

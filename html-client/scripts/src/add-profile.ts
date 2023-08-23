@@ -1,64 +1,135 @@
-const updateFormFullName = document.getElementById(
+import axios from 'axios';
+
+const addProfileFormFullName = document.getElementById(
   'fullName'
 ) as HTMLInputElement | null;
-const updateFormEmail = document.getElementById(
+const addProfileFormEmail = document.getElementById(
   'email'
 ) as HTMLInputElement | null;
-const updateFormAbout = document.getElementById(
+const addProfileFormAbout = document.getElementById(
   'about'
 ) as HTMLInputElement | null;
-const updateFormWebsite = document.getElementById(
+const addProfileFormWebsite = document.getElementById(
   'website'
 ) as HTMLInputElement | null;
-const updateProfileForm = document.querySelector(
+const addProfileForm = document.querySelector(
   '.add-profile-form'
 ) as HTMLFormElement | null;
-const UpdateProfilePreLoaderModal_Loading = document.querySelector(
+const addProfilePreLoaderModal_Loading = document.querySelector(
   '.pre-loader-modal_loading'
-) as HTMLElement | null;
-const UpdateProfilePreLoaderModal_Success = document.querySelector(
+);
+const addProfilePreLoaderModal_Success = document.querySelector(
   '.pre-loader-modal_success'
-) as HTMLElement | null;
+);
 
-async function handleAddProfile(e: Event) {
-  e.preventDefault();
-  UpdateProfilePreLoaderModal_Loading &&
-    (UpdateProfilePreLoaderModal_Loading.style.display = 'block');
-
-  const profile = {
-    fullName: updateFormFullName && updateFormFullName.value,
-    email: updateFormEmail && updateFormEmail.value,
-    about: updateFormAbout && updateFormAbout.value,
-    website: updateFormWebsite && updateFormWebsite.value,
-  };
-
-  const newProfile = await axios.post(
-    'https://developer-profiles-project-youtube.onrender.com/api/v1/profiles/create-profile',
-    profile
-  );
-
-  if (
-    newProfile &&
-    newProfile.data.responseMessage === 'profile created successfully'
-  ) {
-    UpdateProfilePreLoaderModal_Loading &&
-      (UpdateProfilePreLoaderModal_Loading.style.display = 'none');
-    UpdateProfilePreLoaderModal_Success &&
-      (UpdateProfilePreLoaderModal_Success.style.display = 'block');
-
-    updateFormFullName && (updateFormFullName.value = '');
-    updateFormEmail && (updateFormEmail.value = '');
-    updateFormAbout && (updateFormAbout.value = '');
-    updateFormWebsite && (updateFormWebsite.value = '');
-
-    setTimeout(() => {
-      UpdateProfilePreLoaderModal_Success &&
-        (UpdateProfilePreLoaderModal_Success.style.display = 'none');
-
-      window.location.href = '../index.html';
-    }, 2000);
+try {
+  if (!addProfileForm) {
+    throw new Error(
+      `form error: form is not defined. form is ${addProfileForm}`
+    );
+    // display this in a modal for real world builds
   }
+
+  addProfileForm.addEventListener('submit', handleAddProfile);
+} catch (error) {
+  error instanceof Error
+    ? console.log(error.message)
+    : console.log(`Error: unknown error`);
+
+  // show error message in modal/pop-up for real-world builds.
 }
 
-updateProfileForm &&
-  updateProfileForm.addEventListener('submit', handleAddProfile);
+async function handleAddProfile(e: SubmitEvent) {
+  try {
+    e.preventDefault();
+
+    function queryModal(
+      modalType: HTMLElement | null,
+      modalVisibility: string
+    ) {
+      if (!modalType) {
+        throw new Error(
+          `modal error: modal not found. display = "${modalVisibility}" could not be set to ${modalType}. Check if profile was successfully created.
+              (display this in a modal for real world builds)`
+        );
+      }
+
+      modalType.style.display = `${modalVisibility}`;
+    }
+
+    if (
+      !addProfileFormAbout ||
+      !addProfileFormEmail ||
+      !addProfileFormFullName ||
+      !addProfileFormWebsite
+    ) {
+      throw new Error(
+        'form input error: form input(s) could not be found'
+        // display this in a modal for real world builds
+      );
+    }
+
+    queryModal(addProfilePreLoaderModal_Loading as HTMLElement, 'block');
+
+    // if (!addProfileForm) {
+    //   console.log('form error: display this in a modal for real world builds');
+    //   return;
+    // } - this will be an over-do because the form won't even be able to execute the function if this statement if true - DON'T OVER-DO DEFENSIVE PROGRAMMING.
+
+    if (
+      !addProfileFormAbout ||
+      !addProfileFormEmail ||
+      !addProfileFormFullName ||
+      !addProfileFormWebsite
+    ) {
+      throw new Error(
+        'user input error: Check if profile was successfully created. '
+        // display this in a modal for real world builds
+      );
+    }
+
+    /* the advantages of having these bit sized form errors include precise debugging, and(hence) saving of time amongst others like
+      having robust and reliable systems/software... */
+
+    const profile = {
+      fullName: addProfileFormFullName.value,
+      email: addProfileFormEmail.value,
+      website: addProfileFormWebsite.value,
+      about: addProfileFormAbout.value,
+    };
+
+    const { data } = await axios.post<{
+      newProfile: ProfileSpecs;
+      responseMessage: string;
+    }>(
+      'https://developer-profiles-project-youtube.onrender.com/api/v1/profiles/create-profile',
+      profile
+    );
+
+    const profileData = data;
+    if (
+      profileData &&
+      profileData.responseMessage === 'profile created successfully'
+    ) {
+      queryModal(addProfilePreLoaderModal_Loading as HTMLElement, 'none');
+      queryModal(addProfilePreLoaderModal_Success as HTMLElement, 'block');
+
+      addProfileFormFullName.value = '';
+      addProfileFormEmail.value = '';
+      addProfileFormAbout.value = '';
+      addProfileFormWebsite.value = '';
+
+      // setTimeout(() => {
+      //   queryModal(addProfilePreLoaderModal_Success as HTMLElement, 'none');
+
+      //   window.location.href = '../index.html';
+      // }, 2000);
+    }
+  } catch (error) {
+    error instanceof Error
+      ? console.log(error.message)
+      : console.log(`Error: unknown error`);
+
+    // show error message in modal/pop-up for real-world builds.
+  }
+}

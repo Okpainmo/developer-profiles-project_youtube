@@ -31,7 +31,7 @@
   <main class="mt-[60px] mb-10 px-3 sm:px-[10%] relative">
     <!-- 1. pre-loader modal - loading -->
 
-    <div
+    <div id="preLoaderModal_Loading"
       class="pre-loader-modal_loading text-center mb-[30px] hidden absolute top-0 w-[350px] sm:w-[500px] left-0 right-0 mx-auto">
       <p class='mt-4 text-sm px-4 py-3 font-semi-bold w-full bg-blue-50 text-blue-700'>
         Your profile is being updated please wait...
@@ -40,7 +40,7 @@
 
     <!-- 2. pre-loader modal - success -->
 
-    <div
+    <div id="preLoaderModal_Success"
       class="pre-loader-modal_success text-center mb-[30px] hidden absolute top-0 w-[350px] sm:w-[500px] left-0 right-0 mx-auto">
       <p class='mt-4 text-sm px-4 py-3 font-semi-bold w-full bg-green-50 text-green-700'>
         Profile updated successfully.
@@ -88,10 +88,11 @@
   <!-- axios import -->
 
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <!-- no need for this since we're using axios via npm in this case -->
 
   <!-- local script import-->
 
-  <script src="../scripts/dist/update-profile.js"></script>
+  <script type="module" src="../scripts/dist/update-profile.js"></script>
 </body>
 
 </html>

@@ -15,26 +15,9 @@ const url =
   'https://developer-profiles-project-youtube.onrender.com/api/v1/profiles/get-all-profiles';
 
 const handleFetchData = async () => {
-  // implementing data fetching with axios
-
-  // const fetchedData = await axios.get(
-  //   'https://developer-profiles-project-youtube.onrender.com/api/v1/profiles/get-all-profiles'
-  // );
-
-  // if (fetchedData) {
-  //   return fetchedData.data;
-  // } else {
-  //   cardsWrapper.innerHTML = `
-  //   <p>Developer profiles could not be fetched. Please try again</p>
-  //   `;
-
-  //   return;
-  // }
-
-  // implementing data fetching with the fetch API
-
   const response = await fetch(url);
-  const fetchedData = await response.json();
+  const fetchedData: ProfilesDataSpecs & { allProfiles: ProfileSpecs[] } =
+    await response.json();
 
   if (
     fetchedData &&
@@ -50,26 +33,20 @@ const handleFetchData = async () => {
 };
 
 const handleGetProfiles = async function () {
-  const profilesCount = document.getElementById('profilesCount');
+  const profilesCounter = document.getElementById('profilesCount');
   const profilesData = await handleFetchData();
   // console.log(profilesData);
 
-  if (profilesData.allProfiles.length < 1) {
-    cardsWrapper && (cardsWrapper.innerHTML = 'No Profiles created yet');
-    // profilesCount && profilesCount.innerHTML = profiles.length;
+  if (profilesData && profilesData.allProfiles.length < 1) {
+    cardsWrapper &&
+      (cardsWrapper.innerHTML = `
+    <p class="my-40 text-center text-gray-400 text-[20px] mx-auto">Developer profile registry is empty. Please create one or more developer profiles to see them here.</p>
+    `);
   }
 
-  // type Profile = {
-  //   fullName: string;
-  //   website: string;
-  //   email: string;
-  //   about: string;
-  //   _id: string | number;
-  // };
-
-  if (profilesData.allProfiles.length > 0) {
-    const profiles = profilesData.allProfiles.map((each: any) => {
-      const avatarAlphabet = each.fullName.slice(0, 1).toUpperCase();
+  if (profilesData && profilesData.allProfiles.length > 0) {
+    const profiles = profilesData.allProfiles.map((each) => {
+      const avatarAlphabet: string = each.fullName.slice(0, 1).toUpperCase();
       const { website, email, about, _id } = each;
 
       return `
@@ -89,7 +66,7 @@ const handleGetProfiles = async function () {
                     <path d="M5.25 5.25a3 3 0 00-3 3v10.5a3 3 0 003 3h10.5a3 3 0 003-3V13.5a.75.75 0 00-1.5 0v5.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5V8.25a1.5 1.5 0 011.5-1.5h5.25a.75.75 0 000-1.5H5.25z" />
                   </svg>
                 </a>
-                <img src="./assets/images/delete-icon.png" class="delete-profile-icon w-6 cursor-pointer" alt="delete-icon" data-id="${_id}"/>
+                <img src="./assets/images/delete-icon.png" class="delete-profile-icon w-6 cursor-pointer" type="button" alt="delete-icon" data-id="${_id}"/>
               </div>
             </section>
             <section class="flex flex-col justify-between min-h-[220px]">
@@ -125,30 +102,9 @@ const handleGetProfiles = async function () {
     });
 
     cardsWrapper && (cardsWrapper.innerHTML = profiles.join(' '));
-    profilesCount &&
-      (profilesCount.innerHTML = profilesData.allProfiles.length);
-    
-     const showOverlayButtons = document.querySelectorAll(
-       '.delete-profile-icon'
-     );
+    profilesCounter &&
+      (profilesCounter.innerHTML = profilesData.allProfiles.length.toString());
 
-     showOverlayButtons.forEach((each) => {
-       each.addEventListener('click', (e: Event) => {
-         modalOverlay && (modalOverlay.style.display = 'flex');
-         const dataId = (e.target as HTMLElement).dataset.id as string;
-         profileId = dataId;
-         // console.log(profileId);
-       });
-     });
-  }
-};
-
-handleGetProfiles();
-
-/* async function handleShowOverlay() {
-  const profilesData = await handleFetchData();
-
-  if (profilesData && profilesData.allProfiles.length > 0) {
     const showOverlayButtons = document.querySelectorAll(
       '.delete-profile-icon'
     );
@@ -162,14 +118,17 @@ handleGetProfiles();
       });
     });
   }
-} */
+};
 
-// handleShowOverlay();
+handleGetProfiles();
 
 async function handleConfirmDeleteProfile() {
-  const deletedProfile = await axios.delete(
-    `https://developer-profiles-project-youtube.onrender.com/api/v1/profiles/delete-profile/${profileId}`
-  );
+  const deletedProfile: ProfilesDataSpecs & { deletedProfile: ProfileSpecs } =
+    await axios.delete(
+      `https://developer-profiles-project-youtube.onrender.com/api/v1/profiles/delete-profile/${profileId}`
+    );
+
+  console.log(deletedProfile);
 
   modalOverlay && (modalOverlay.style.display = 'none');
   console.log(deletedProfile);
