@@ -12,12 +12,10 @@ const addProfileFormAbout = document.getElementById(
 const addProfileFormWebsite = document.getElementById(
   'website'
 ) as HTMLInputElement | null;
-const addProfileForm = document.querySelector(
-  '.add-profile-form'
-) as HTMLFormElement | null;
-const addProfilePreLoaderModal_Loading = document.querySelector(
-  '.pre-loader-modal_loading'
-);
+const addProfileForm: HTMLFormElement | null =
+  document.querySelector('.add-profile-form');
+const addProfilePreLoaderModal_Loading: HTMLElement | null =
+  document.querySelector('.pre-loader-modal_loading');
 const addProfilePreLoaderModal_Success = document.querySelector(
   '.pre-loader-modal_success'
 );
@@ -49,8 +47,8 @@ async function handleAddProfile(e: SubmitEvent) {
     ) {
       if (!modalType) {
         throw new Error(
-          `modal error: modal not found. display = "${modalVisibility}" could not be set to ${modalType}. Check if profile was successfully created.
-              (display this in a modal for real world builds)`
+          `modal error: modal not found. display = "${modalVisibility}" could not be set to ${modalType}. Check if profile was successfully created. 
+              (display this in a modal for real world builds. Add a constant note like "Please report this error in every modal")`
         );
       }
 
@@ -69,7 +67,8 @@ async function handleAddProfile(e: SubmitEvent) {
       );
     }
 
-    queryModal(addProfilePreLoaderModal_Loading as HTMLElement, 'block');
+    addProfilePreLoaderModal_Loading &&
+      queryModal(addProfilePreLoaderModal_Loading, 'block');
 
     // if (!addProfileForm) {
     //   console.log('form error: display this in a modal for real world builds');
