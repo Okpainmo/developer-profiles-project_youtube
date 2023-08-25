@@ -4,7 +4,11 @@ import { HomeContext } from '../context/HomeContext';
 import { Link } from 'react-router-dom';
 import deleteIconImage from '../assets/images/delete-icon.png';
 
-function ProfileCard({ developerProfile }) {
+type ProfileCardProps = {
+  developerProfile: ProfileSpecs;
+};
+
+function ProfileCard({ developerProfile }: ProfileCardProps) {
   const { fullName, email, about, website, _id: id } = developerProfile;
   const { handleSetProfile, handleShowModal } = useContext(HomeContext);
 
@@ -32,7 +36,13 @@ function ProfileCard({ developerProfile }) {
           <img
             src={deleteIconImage}
             onClick={() => {
-              handleSetProfile(id);
+              // handleSetProfile(id!);
+
+              // below is a safer alternative
+
+              if (id) {
+                handleSetProfile(id);
+              }
               handleShowModal();
             }}
             className='delete-profile-icon w-6 cursor-pointer'

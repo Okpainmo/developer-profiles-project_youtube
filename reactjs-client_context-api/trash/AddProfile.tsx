@@ -1,11 +1,14 @@
-// import React from 'react';
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-function UpdateProfile() {
+function AddProfile() {
+  useEffect(() => {
+    document.title =
+      'Add Profile | full stack project with the MERN stack, tailwind-css, and html.';
+  }, []);
+
   const Navigate = useNavigate();
-  const { profileId } = useParams();
 
   const [showLoadingModal, setShowLoadingModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -17,54 +20,18 @@ function UpdateProfile() {
     website: '',
   });
 
-  useEffect(() => {
-    // set page title
-
-    document.title =
-      'Update Profile | full stack project with the MERN stack, tailwind-css, and html.';
-
-    // fetch user and add to the update profile form
-
-    const url = `https://developer-profiles-project-youtube-live.onrender.com/api/v1/profiles/get-profile/${profileId}`;
-
-    const handleGetProfile = async () => {
-      // implementing data fetching with axios
-
-      const profileData = await axios.get(url);
-      // console.log(profileData.data);
-
-      /* implementing data fetching with the fetch API
-
-      const response = await fetch(url);
-      const fetchedData = await response.json();
-       console.log(fetchedData);
-
-       return fetchedData; */
-
-      setProfileData({
-        fullName: profileData.data.profile.fullName,
-        about: profileData.data.profile.about,
-        email: profileData.data.profile.email,
-        website: profileData.data.profile.website,
-      });
-    };
-
-    handleGetProfile();
-  }, []);
-
-  async function handleUpdateProfile(e) {
+  async function handleCreateProfile(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setShowLoadingModal(true);
 
-    const updatedProfile = await axios.patch(
-      `https://developer-profiles-project-youtube-live.onrender.com/api/v1/profiles/update-profile/${profileId}`,
+    const newProfile = await axios.post(
+      'https://developer-profiles-project-youtube-live.onrender.com/api/v1/profiles/create-profile',
       profileData
     );
-    // console.log(updatedProfile);
 
     if (
-      updatedProfile &&
-      updatedProfile.data.responseMessage === 'profile updated successfully'
+      newProfile &&
+      newProfile.data.responseMessage === 'profile created successfully'
     ) {
       setShowSuccessModal(true);
       setShowLoadingModal(false);
@@ -74,51 +41,50 @@ function UpdateProfile() {
         email: '',
         website: '',
       });
+
+      setTimeout(() => {
+        setShowSuccessModal(false);
+
+        Navigate('/');
+      }, 3000);
     }
-
-    setTimeout(() => {
-      setShowSuccessModal(false);
-
-      Navigate('/');
-    }, 3000);
   }
 
   return (
-    <>
+    <main className='mt-[60px] mb-16 px-3 sm:px-[10%] relative'>
       {/* 1. pre-loader modal - loading  */}
 
       <div
-        className={`pre-loader-modal_loading text-center mb-[30px] absolute top-0 w-[350px]  sm:w-[500px] sm:mx-auto left-0 right-0 mx-auto ${
+        className={`pre-loader-modal_loading text-center mb-[30px] absolute top-0 w-[350px]  sm:w-[500px] left-0 right-0 mx-auto ${
           showLoadingModal ? 'block' : 'hidden'
         }`}
       >
         <p className='mt-4 text-sm px-4 py-3 font-semi-bold w-full bg-blue-50 text-blue-700'>
-          Your profile is being updated please wait...
+          Your profile is being created please wait...
         </p>
       </div>
 
       {/* 2. pre-loader modal - success */}
 
       <div
-        className={`pre-loader-modal_success text-center mb-[30px] absolute top-0 w-[350px] sm:w-[500px] sm:mx-auto left-0 right-0 mx-auto ${
+        className={`pre-loader-modal_success text-center mb-[30px] absolute top-0 w-[350px] sm:w-[500px] left-0 right-0 mx-auto ${
           showSuccessModal ? 'block' : 'hidden'
         }`}
       >
         <p className='mt-4 text-sm px-4 py-3 font-semi-bold w-full bg-green-50 text-green-700'>
-          Profile updated successfully.
+          Profile created successfully.
         </p>
       </div>
-
       <header className='text-center mb-10 sm:mb-16'>
         <h1 className='text-blue-900 text-2xl sm:text-3xl font-bold poppins'>
-          Update Developer Profile
+          Add Developer Profile
         </h1>
         <p className='text-[16px] mt-3'>
-          Ensure to use a different/unique email for this profile.
+          Please use a different/unique email for every profile you're creating.
         </p>
       </header>
       <section className='form-wrapper w-full md:w-[600px] mx-auto'>
-        <form onSubmit={handleUpdateProfile} className='update-profile-form'>
+        <form onSubmit={handleCreateProfile} className='add-profile-form'>
           <div className='full-name-and-email-wrapper flex flex-col gap-4 mt-8 w-full'>
             <div className='input-group flex flex-col'>
               <label className='font-bold poppins' htmlFor='fullName'>
@@ -177,12 +143,12 @@ function UpdateProfile() {
               <textarea
                 id='about'
                 placeholder='developer bio'
-                type='text'
+                // type='text'
                 value={profileData.about}
                 onChange={(e) => {
                   setProfileData({ ...profileData, about: e.target.value });
                 }}
-                rows='7'
+                rows={7}
                 required={true}
                 className='rounded border px-3 outline-none py-2 mt-3 text-gray-600'
               ></textarea>
@@ -190,14 +156,14 @@ function UpdateProfile() {
           </div>
           <button
             type='submit'
-            className='text-center w-full bg-blue-900 text-white px-6 py-3 mt-10 font-bold rounded poppins'
+            className='add-profile-form-button text-center w-full bg-blue-900 text-white px-6 py-3 mt-10 font-bold rounded poppins'
           >
-            Update profile
+            Add profile
           </button>
         </form>
       </section>
-    </>
+    </main>
   );
 }
 
-export default UpdateProfile;
+export default AddProfile;

@@ -1,18 +1,32 @@
-import { useContext, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { HomeContext } from '../context/HomeContext';
-import Navbar from '../components/Navbar';
+// import ModalOverlay from '../../trash/ModalOverlay';
+import Navbar from '../../trash/Navbar';
 import ProfileCardsWrapper from '../components/ProfileCardsWrapper';
 
 function Home() {
-  const {
-    showModal,
-    handleHideModal,
-    handleDeleteProfile,
-    isProfileDeleted,
-    setIsProfileDeleted,
-    setProfilesData,
-  } = useContext(HomeContext);
+  type ProfileSpecs = {
+    fullName: string;
+    email: string;
+    about: string;
+    website: string;
+    _id: string | number;
+  };
+
+  type ProfilesDataSpecs = {
+    profiles: ProfileSpecs[];
+    profilesCount: number;
+    responseMessage: string;
+  };
+
+  const [profilesData, setProfilesData] = useState<ProfilesDataSpecs | null>(
+    null
+  );
+  const [isProfileDeleted, setIsProfileDeleted] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [profileIdToDelete, setProfileIdToDelete] = useState<
+    number | string | null
+  >(null);
 
   useEffect(() => {
     document.title =
@@ -44,6 +58,36 @@ function Home() {
       setIsProfileDeleted(false);
     };
   }, [isProfileDeleted]);
+
+  async function handleDeleteProfile() {
+    console.log(profileIdToDelete);
+    handleHideModal();
+
+    const deletedProfile = await axios.delete(
+      `https://developer-profiles-project-youtube-live.onrender.com/api/v1/profiles/delete-profile/${profileIdToDelete}`
+    );
+
+    console.log(deletedProfile);
+
+    if (
+      deletedProfile &&
+      deletedProfile.data.responseMessage === 'profile deleted successfully'
+    ) {
+      setIsProfileDeleted(true);
+    }
+  }
+
+  function handleShowModal() {
+    setShowModal(true);
+  }
+
+  function handleHideModal() {
+    setShowModal(false);
+  }
+
+  function handleSetProfile(id: number | string) {
+    setProfileIdToDelete(id);
+  }
 
   return (
     <main className='main-wrapper bg-blue-50 min-h-screen pb-[100px]'>
@@ -82,8 +126,12 @@ function Home() {
         </div>
       </section>
       <div className='bg-blue-50 px-3 pt-6 pb-10 sm:px-10 md:px-6 xl:px-[10%]'>
-        <Navbar />
-        <ProfileCardsWrapper />
+        <Navbar profilesData={profilesData} />
+        <ProfileCardsWrapper
+          profilesData={profilesData}
+          handleShowModal={handleShowModal}
+          handleSetProfile={handleSetProfile}
+        />
       </div>
     </main>
   );

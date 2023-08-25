@@ -13,25 +13,28 @@ function AddProfile() {
   const [showLoadingModal, setShowLoadingModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
-  const [profileData, setProfileData] = useState({
+  const [profileData, setProfileData] = useState<ProfileSpecs>({
     fullName: '',
     about: '',
     email: '',
     website: '',
   });
 
-  async function handleCreateProfile(e) {
+  async function handleCreateProfile(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setShowLoadingModal(true);
 
-    const newProfile = await axios.post(
+    const { data: newProfile } = await axios.post<{
+      profile: ProfileSpecs;
+      responseMessage: string;
+    }>(
       'https://developer-profiles-project-youtube-live.onrender.com/api/v1/profiles/create-profile',
       profileData
     );
 
     if (
       newProfile &&
-      newProfile.data.responseMessage === 'profile created successfully'
+      newProfile.responseMessage === 'profile created successfully'
     ) {
       setShowSuccessModal(true);
       setShowLoadingModal(false);
@@ -143,12 +146,12 @@ function AddProfile() {
               <textarea
                 id='about'
                 placeholder='developer bio'
-                type='text'
+                // type='text'
                 value={profileData.about}
                 onChange={(e) => {
                   setProfileData({ ...profileData, about: e.target.value });
                 }}
-                rows='7'
+                rows={7}
                 required={true}
                 className='rounded border px-3 outline-none py-2 mt-3 text-gray-600'
               ></textarea>
