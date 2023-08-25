@@ -2,11 +2,33 @@
 
 import ProfileCard from './ProfileCard';
 
+// type HandleShowModalSpecs = (): void => {}
+
+type ProfileSpecs = {
+  fullName: string;
+  email: string;
+  about: string;
+  website: string;
+  _id: string | number;
+};
+
+type ProfilesDataSpecs = {
+  profiles: ProfileSpecs[];
+  profilesCount: number;
+  responseMessage: string;
+};
+
+type PageProps = {
+  profilesData: ProfilesDataSpecs | null;
+  handleShowModal: () => void;
+  handleSetProfile: (_id: number | string) => void;
+};
+
 function ProfileCardsWrapper({
   profilesData,
   handleShowModal,
   handleSetProfile,
-}) {
+}: PageProps) {
   // console.log(profilesData);
 
   if (!profilesData) {

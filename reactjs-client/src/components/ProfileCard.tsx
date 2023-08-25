@@ -2,7 +2,25 @@
 import deleteIconImage from '../assets/images/delete-icon.png';
 import { Link } from 'react-router-dom';
 
-function ProfileCard({ developerProfile, handleShowModal, handleSetProfile }) {
+type ProfileSpecs = {
+  fullName: string;
+  email: string;
+  about: string;
+  website: string;
+  _id: string | number;
+};
+
+type PageProps = {
+  developerProfile: ProfileSpecs;
+  handleShowModal: () => void;
+  handleSetProfile: (_id: number | string) => void;
+};
+
+function ProfileCard({
+  developerProfile,
+  handleShowModal,
+  handleSetProfile,
+}: PageProps) {
   const { fullName, email, about, website, _id: id } = developerProfile;
   // const id = 'page-id';
 

@@ -1,7 +1,25 @@
 // import React from 'react'
 import { Link } from 'react-router-dom';
 
-function Navbar({ profilesData }) {
+type ProfileSpecs = {
+  fullName: string;
+  email: string;
+  about: string;
+  website: string;
+  _id: string | number;
+};
+
+type ProfilesDataSpecs = {
+  profiles: ProfileSpecs[];
+  profilesCount: number;
+  responseMessage: string;
+};
+
+type PageProps = {
+  profilesData: ProfilesDataSpecs | null;
+};
+
+function Navbar({ profilesData }: PageProps) {
   return (
     <nav className='navbar flex gap-4 justify-between items-center w-full'>
       <div className='flex gap-3 items-center text-[14px] sm:text-[16px]'>

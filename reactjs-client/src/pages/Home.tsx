@@ -5,10 +5,28 @@ import Navbar from '../components/Navbar';
 import ProfileCardsWrapper from '../components/ProfileCardsWrapper';
 
 function Home() {
-  const [profilesData, setProfilesData] = useState(null);
+  type ProfileSpecs = {
+    fullName: string;
+    email: string;
+    about: string;
+    website: string;
+    _id: string | number;
+  };
+
+  type ProfilesDataSpecs = {
+    profiles: ProfileSpecs[];
+    profilesCount: number;
+    responseMessage: string;
+  };
+
+  const [profilesData, setProfilesData] = useState<ProfilesDataSpecs | null>(
+    null
+  );
   const [isProfileDeleted, setIsProfileDeleted] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [profileIdToDelete, setProfileIdToDelete] = useState(null);
+  const [profileIdToDelete, setProfileIdToDelete] = useState<
+    number | string | null
+  >(null);
 
   useEffect(() => {
     document.title =
@@ -22,17 +40,9 @@ function Home() {
     const handleFetchData = async () => {
       // implementing data fetching with axios
 
-      const fetchedData = await axios.get(url);
-      setProfilesData(fetchedData.data);
-      console.log(fetchedData.data);
-
-      // implementing data fetching with the fetch API
-
-      // const response = await fetch(url);
-      // const fetchedData = await response.json();
+      const { data: fetchedData } = await axios.get<ProfilesDataSpecs>(url);
+      setProfilesData(fetchedData);
       // console.log(fetchedData);
-
-      // return fetchedData;
     };
     handleFetchData();
 
@@ -45,15 +55,18 @@ function Home() {
     console.log(profileIdToDelete);
     handleHideModal();
 
-    const deletedProfile = await axios.delete(
+    const { data: deletedProfile } = await axios.delete<{
+      deletedProfile: ProfileSpecs;
+      responseMessage: string;
+    }>(
       `https://developer-profiles-project-youtube-live.onrender.com/api/v1/profiles/delete-profile/${profileIdToDelete}`
     );
 
-    console.log(deletedProfile);
+    // console.log(deletedProfile);
 
     if (
       deletedProfile &&
-      deletedProfile.data.responseMessage === 'profile deleted successfully'
+      deletedProfile.responseMessage === 'profile deleted successfully'
     ) {
       setIsProfileDeleted(true);
     }
@@ -67,17 +80,12 @@ function Home() {
     setShowModal(false);
   }
 
-  function handleSetProfile(id) {
+  function handleSetProfile(id: number | string) {
     setProfileIdToDelete(id);
   }
 
   return (
     <main className='main-wrapper bg-blue-50 min-h-screen pb-[100px]'>
-      {/* <ModalOverlay
-        showModal={showModal}
-        handleHideModal={handleHideModal}
-        // handleDeleteProfile={handleDeleteProfile}
-      /> */}
       <section
         className={`px-3 fixed left-0 right-0 top-0 min-h-screen ${
           showModal ? 'flex' : 'hidden'

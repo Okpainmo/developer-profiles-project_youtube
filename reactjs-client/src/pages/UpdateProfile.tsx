@@ -3,6 +3,13 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
+type ProfileSpecs = {
+  fullName: string;
+  email: string;
+  about: string;
+  website: string;
+};
+
 function UpdateProfile() {
   const Navigate = useNavigate();
   const { profileId } = useParams();
@@ -10,7 +17,7 @@ function UpdateProfile() {
   const [showLoadingModal, setShowLoadingModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
-  const [profileData, setProfileData] = useState({
+  const [profileData, setProfileData] = useState<ProfileSpecs>({
     fullName: '',
     about: '',
     email: '',
@@ -30,41 +37,41 @@ function UpdateProfile() {
     const handleGetProfile = async () => {
       // implementing data fetching with axios
 
-      const profileData = await axios.get(url);
-      // console.log(profileData.data);
+      const { data } = await axios.get<{
+        profile: ProfileSpecs;
+        responseMessage: string;
+      }>(url);
+      console.log(data);
 
-      /* implementing data fetching with the fetch API
-
-      const response = await fetch(url);
-      const fetchedData = await response.json();
-       console.log(fetchedData);
-
-       return fetchedData; */
+      const { fullName, email, website, about } = data.profile;
 
       setProfileData({
-        fullName: profileData.data.profile.fullName,
-        about: profileData.data.profile.about,
-        email: profileData.data.profile.email,
-        website: profileData.data.profile.website,
+        fullName: fullName,
+        about: about,
+        email: email,
+        website: website,
       });
     };
 
     handleGetProfile();
   }, []);
 
-  async function handleUpdateProfile(e) {
+  async function handleUpdateProfile(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setShowLoadingModal(true);
 
-    const updatedProfile = await axios.patch(
+    const { data: updatedProfile } = await axios.patch<{
+      updatedProfile: ProfileSpecs;
+      responseMessage: string;
+    }>(
       `https://developer-profiles-project-youtube-live.onrender.com/api/v1/profiles/update-profile/${profileId}`,
       profileData
     );
-    // console.log(updatedProfile);
+    console.log(updatedProfile);
 
     if (
       updatedProfile &&
-      updatedProfile.data.responseMessage === 'profile updated successfully'
+      updatedProfile.responseMessage === 'profile updated successfully'
     ) {
       setShowSuccessModal(true);
       setShowLoadingModal(false);
@@ -74,13 +81,13 @@ function UpdateProfile() {
         email: '',
         website: '',
       });
+
+      setTimeout(() => {
+        setShowSuccessModal(false);
+
+        Navigate('/');
+      }, 3000);
     }
-
-    setTimeout(() => {
-      setShowSuccessModal(false);
-
-      Navigate('/');
-    }, 3000);
   }
 
   return (
@@ -177,12 +184,12 @@ function UpdateProfile() {
               <textarea
                 id='about'
                 placeholder='developer bio'
-                type='text'
+                // type='text'
                 value={profileData.about}
                 onChange={(e) => {
                   setProfileData({ ...profileData, about: e.target.value });
                 }}
-                rows='7'
+                rows={7}
                 required={true}
                 className='rounded border px-3 outline-none py-2 mt-3 text-gray-600'
               ></textarea>
