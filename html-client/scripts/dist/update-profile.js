@@ -8,11 +8,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const axios_1 = __importDefault(require("axios"));
 const updateProfileFullName = document.getElementById('fullName');
 const updateProfileFormEmail = document.getElementById('email');
 const updateProfileFormAbout = document.getElementById('about');
@@ -22,19 +17,15 @@ const preLoaderModal_Loading = document.getElementById('preLoaderModal_Loading')
 const preLoaderModal_Success = document.getElementById('preLoaderModal_Success');
 const urlParams = window.location.search;
 const id = new URLSearchParams(urlParams).get('id');
-// console.log(id);
 try {
     if (!updateProfileFullName ||
         !updateProfileFormEmail ||
         !updateProfileFormAbout ||
         !updateProfileFormWebsite) {
-        throw new Error('form input error: form input(s) could not be found'
-        // display this in a modal for real world builds
-        );
+        throw new Error('form input error: form input(s) could not be found');
     }
     if (!updateProfileForm) {
         throw new Error(`form error: form is not defined. form is ${updateProfileForm}`);
-        // display this in a modal for real world builds
     }
     const handleFetchProfileToUpdate = () => __awaiter(void 0, void 0, void 0, function* () {
         const updateProfileUrl = `https://developer-profiles-project-youtube.onrender.com/api/v1/profiles/get-profile/${id}`;
@@ -50,16 +41,13 @@ try {
                 updateProfileFormWebsite.value = fetchedData.profile.website;
             }
             else {
-                throw new Error('request unsuccessful: developer profile could not be fetched'
-                // display this in a modal for real world builds
-                );
+                throw new Error('request unsuccessful: developer profile could not be fetched');
             }
         }
         catch (error) {
             error instanceof Error
                 ? console.log(error.message)
                 : console.log(`Error: unknown error`);
-            // show error message in modal/pop-up for real-world builds.
         }
     });
     handleFetchProfileToUpdate();
@@ -70,15 +58,12 @@ try {
                 if (!preLoaderModal_Loading || !preLoaderModal_Success) {
                     throw new Error(`modal error: modal(s) not found, Style could not be assigned`);
                 }
-                // show the above in a modal for real world builds
                 preLoaderModal_Loading.style.display = 'block';
                 if (!updateProfileFullName ||
                     !updateProfileFormEmail ||
                     !updateProfileFormAbout ||
                     !updateProfileFormWebsite) {
-                    throw new Error('form input error: form input(s) could not be found.'
-                    // display this in a modal for real world builds
-                    );
+                    throw new Error('form input error: form input(s) could not be found.');
                 }
                 const updateToProfile = {
                     name: updateProfileFullName.value,
@@ -86,10 +71,9 @@ try {
                     about: updateProfileFormAbout.value,
                     website: updateProfileFormWebsite.value,
                 };
-                const { data: updatedProfile } = yield axios_1.default.patch(`https://developer-profiles-project-youtube.onrender.com/api/v1/profiles/update-profile/${id}`, updateToProfile);
+                const { data: updatedProfile } = yield axios.patch(`https://developer-profiles-project-youtube.onrender.com/api/v1/profiles/update-profile/${id}`, updateToProfile);
                 if (updatedProfile &&
-                    updatedProfile.responseMessage === 'profile updated successfully' // resolve this
-                ) {
+                    updatedProfile.responseMessage === 'profile updated successfully') {
                     preLoaderModal_Loading.style.display = 'none';
                     preLoaderModal_Success.style.display = 'block';
                     updateProfileFullName.value = '';
@@ -106,7 +90,6 @@ try {
                 error instanceof Error
                     ? console.log(error.message)
                     : console.log(`Error: unknown error`);
-                // show error message in modal/pop-up for real-world builds.
             }
         });
     }
@@ -116,5 +99,4 @@ catch (error) {
     error instanceof Error
         ? console.log(error.message)
         : console.log(`Error: unknown error`);
-    // show error message in modal/pop-up for real-world builds.
 }

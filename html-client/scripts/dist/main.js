@@ -8,12 +8,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-// global variables
-const axios_1 = __importDefault(require("axios"));
 const modalOverlay = document.getElementById('modalOverlay');
 const confirmDeleteProfileButton = document.getElementById('confirmDeleteProfileButton');
 const cancelDeleteProfileButton = document.getElementById('cancelDeleteProfileButton');
@@ -38,7 +32,6 @@ const handleGetProfiles = function () {
     return __awaiter(this, void 0, void 0, function* () {
         const profilesCounter = document.getElementById('profilesCount');
         const profilesData = yield handleFetchData();
-        // console.log(profilesData);
         if (profilesData && profilesData.allProfiles.length < 1) {
             cardsWrapper &&
                 (cardsWrapper.innerHTML = `
@@ -109,7 +102,6 @@ const handleGetProfiles = function () {
                     modalOverlay && (modalOverlay.style.display = 'flex');
                     const dataId = e.target.dataset.id;
                     profileId = dataId;
-                    // console.log(profileId);
                 });
             });
         }
@@ -118,8 +110,7 @@ const handleGetProfiles = function () {
 handleGetProfiles();
 function handleConfirmDeleteProfile() {
     return __awaiter(this, void 0, void 0, function* () {
-        yield axios_1.default.delete(`https://developer-profiles-project-youtube.onrender.com/api/v1/profiles/delete-profile/${profileId}`);
-        // console.log(deletedProfile);
+        yield axios.delete(`https://developer-profiles-project-youtube.onrender.com/api/v1/profiles/delete-profile/${profileId}`);
         modalOverlay && (modalOverlay.style.display = 'none');
         handleGetProfiles();
     });
@@ -129,4 +120,3 @@ function handleCancelDeleteProfile() {
     modalOverlay && (modalOverlay.style.display = 'none');
 }
 cancelDeleteProfileButton === null || cancelDeleteProfileButton === void 0 ? void 0 : cancelDeleteProfileButton.addEventListener('click', handleCancelDeleteProfile);
-// export default {};

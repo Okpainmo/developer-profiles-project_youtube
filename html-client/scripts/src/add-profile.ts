@@ -1,4 +1,6 @@
-import axios from 'axios';
+// import axios from 'axios';
+
+// global variables
 
 const addProfileFormFullName = document.getElementById(
   'fullName'

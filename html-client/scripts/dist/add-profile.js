@@ -8,11 +8,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const axios_1 = __importDefault(require("axios"));
 const addProfileFormFullName = document.getElementById('fullName');
 const addProfileFormEmail = document.getElementById('email');
 const addProfileFormAbout = document.getElementById('about');
@@ -23,7 +18,6 @@ const addProfilePreLoaderModal_Success = document.querySelector('.pre-loader-mod
 try {
     if (!addProfileForm) {
         throw new Error(`form error: form is not defined. form is ${addProfileForm}`);
-        // display this in a modal for real world builds
     }
     addProfileForm.addEventListener('submit', handleAddProfile);
 }
@@ -31,7 +25,6 @@ catch (error) {
     error instanceof Error
         ? console.log(error.message)
         : console.log(`Error: unknown error`);
-    // show error message in modal/pop-up for real-world builds.
 }
 function handleAddProfile(e) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -39,8 +32,8 @@ function handleAddProfile(e) {
             e.preventDefault();
             function queryModal(modalType, modalVisibility) {
                 if (!modalType) {
-                    throw new Error(`modal error: modal not found. display = "${modalVisibility}" could not be set to ${modalType}. Check if profile was successfully created.
-              (display this in a modal for real world builds)`);
+                    throw new Error(`modal error: modal not found. display = "${modalVisibility}" could not be set to ${modalType}. Check if profile was successfully created. 
+              (display this in a modal for real world builds. Add a constant note like "Please report this error in every modal")`);
                 }
                 modalType.style.display = `${modalVisibility}`;
             }
@@ -48,32 +41,23 @@ function handleAddProfile(e) {
                 !addProfileFormEmail ||
                 !addProfileFormFullName ||
                 !addProfileFormWebsite) {
-                throw new Error('form input error: form input(s) could not be found'
-                // display this in a modal for real world builds
-                );
+                throw new Error('form input error: form input(s) could not be found');
             }
-            queryModal(addProfilePreLoaderModal_Loading, 'block');
-            // if (!addProfileForm) {
-            //   console.log('form error: display this in a modal for real world builds');
-            //   return;
-            // } - this will be an over-do because the form won't even be able to execute the function if this statement if true - DON'T OVER-DO DEFENSIVE PROGRAMMING.
+            addProfilePreLoaderModal_Loading &&
+                queryModal(addProfilePreLoaderModal_Loading, 'block');
             if (!addProfileFormAbout ||
                 !addProfileFormEmail ||
                 !addProfileFormFullName ||
                 !addProfileFormWebsite) {
-                throw new Error('user input error: Check if profile was successfully created. '
-                // display this in a modal for real world builds
-                );
+                throw new Error('user input error: Check if profile was successfully created. ');
             }
-            /* the advantages of having these bit sized form errors include precise debugging, and(hence) saving of time amongst others like
-              having robust and reliable systems/software... */
             const profile = {
                 fullName: addProfileFormFullName.value,
                 email: addProfileFormEmail.value,
                 website: addProfileFormWebsite.value,
                 about: addProfileFormAbout.value,
             };
-            const { data } = yield axios_1.default.post('https://developer-profiles-project-youtube.onrender.com/api/v1/profiles/create-profile', profile);
+            const { data } = yield axios.post('https://developer-profiles-project-youtube.onrender.com/api/v1/profiles/create-profile', profile);
             const profileData = data;
             if (profileData &&
                 profileData.responseMessage === 'profile created successfully') {
@@ -83,17 +67,12 @@ function handleAddProfile(e) {
                 addProfileFormEmail.value = '';
                 addProfileFormAbout.value = '';
                 addProfileFormWebsite.value = '';
-                // setTimeout(() => {
-                //   queryModal(addProfilePreLoaderModal_Success as HTMLElement, 'none');
-                //   window.location.href = '../index.html';
-                // }, 2000);
             }
         }
         catch (error) {
             error instanceof Error
                 ? console.log(error.message)
                 : console.log(`Error: unknown error`);
-            // show error message in modal/pop-up for real-world builds.
         }
     });
 }

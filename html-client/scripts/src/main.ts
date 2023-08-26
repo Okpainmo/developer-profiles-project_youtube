@@ -1,5 +1,6 @@
+// import axios from 'axios';
+
 // global variables
-import axios from 'axios';
 
 const modalOverlay = document.getElementById('modalOverlay');
 const confirmDeleteProfileButton = document.getElementById(
@@ -147,5 +148,3 @@ function handleCancelDeleteProfile() {
 }
 
 cancelDeleteProfileButton?.addEventListener('click', handleCancelDeleteProfile);
-
-// export default {};

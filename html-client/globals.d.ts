@@ -1,7 +1,5 @@
 // global.d.ts or a similar file
 
-declare const axios: any;
-
 type ProfileSpecs = {
   fullName: string;
   email: string;
