@@ -1,10 +1,20 @@
-import profileSchema from '../models/profileModel.js';
+import profileSchema from '../models/profile.model';
+import { Request, Response } from 'express';
+import { ProfileSpecs } from '../schemas/profile.schema';
+import { ResponseSpecs } from '../globals';
 
 // description: Create a new profile
 // request | route: POST | "/api/v1/profiles/create-profile"
 // access: Public
 
-export const createProfile = async (req, res) => {
+type createProfileResponseSpec = {
+  newProfile?: ProfileSpecs;
+} & ResponseSpecs;
+
+export const createProfile = async (
+  req: Request<{}, createProfileResponseSpec, ProfileSpecs>,
+  res: Response<createProfileResponseSpec>
+) => {
   const { fullName, email, website, about } = req.body;
 
   try {
@@ -26,18 +36,33 @@ export const createProfile = async (req, res) => {
       .status(201)
       .json({ responseMessage: 'profile created successfully', newProfile });
   } catch (error) {
-    res.status(500).json({
-      responseMessage: 'profile creation failed: please try again',
-      error: error.message,
-    });
+    if (error instanceof Error) {
+      res.status(500).json({
+        responseMessage: 'profile creation failed: please try again',
+        error: error.message,
+      });
+    } else {
+      res.status(500).json({
+        responseMessage: 'an error occurred',
+        error: error,
+      });
+    }
   }
 };
 
-// description: Get all profiles
+// description: Get all profiles: Request
 // request | route: GET | "/api/v1/profiles/get-all-profiles"
 // access: Public
 
-export const getAllProfiles = async (req, res) => {
+type getAllProfilesResponseSpec = {
+  allProfiles?: ProfileSpecs[];
+  profilesCount?: number;
+} & ResponseSpecs;
+
+export const getAllProfiles = async (
+  req: Request<{}, getAllProfilesResponseSpec>,
+  res: Response<getAllProfilesResponseSpec>
+) => {
   try {
     const allProfiles = await profileSchema.find({});
 
@@ -53,10 +78,17 @@ export const getAllProfiles = async (req, res) => {
       allProfiles,
     });
   } catch (error) {
-    res.status(500).json({
-      responseMessage: 'request unsuccessful',
-      error: error.message,
-    });
+    if (error instanceof Error) {
+      res.status(500).json({
+        responseMessage: 'profile creation failed: please try again',
+        error: error.message,
+      });
+    } else {
+      res.status(500).json({
+        responseMessage: 'an error occurred',
+        error: error,
+      });
+    }
   }
 };
 
@@ -64,7 +96,14 @@ export const getAllProfiles = async (req, res) => {
 // request | route: GET | "/api/v1/profiles/get-profile/:id"
 // access: Public
 
-export const getProfile = async (req, res) => {
+type getSingleProfileResponseSpec = {
+  profile?: ProfileSpecs;
+} & ResponseSpecs;
+
+export const getProfile = async (
+  req: Request<{ id: string }, getSingleProfileResponseSpec>,
+  res: Response<getSingleProfileResponseSpec>
+) => {
   const { id } = req.params;
 
   try {
@@ -81,10 +120,17 @@ export const getProfile = async (req, res) => {
       profile,
     });
   } catch (error) {
-    res.status(500).json({
-      responseMessage: 'request unsuccessful',
-      error: error.message,
-    });
+    if (error instanceof Error) {
+      res.status(500).json({
+        responseMessage: 'profile creation failed: please try again',
+        error: error.message,
+      });
+    } else {
+      res.status(500).json({
+        responseMessage: 'an error occurred',
+        error: error,
+      });
+    }
   }
 };
 
@@ -92,7 +138,14 @@ export const getProfile = async (req, res) => {
 // request | route: PATCH | "/api/v1/profiles/update-profile/:id"
 // access: Public
 
-export const updateProfile = async (req, res) => {
+type updateProfileResponseSpecs = {
+  updatedProfile?: ProfileSpecs | null;
+} & ResponseSpecs;
+
+export const updateProfile = async (
+  req: Request<{ id: string }, updateProfileResponseSpecs, ProfileSpecs>,
+  res: Response<updateProfileResponseSpecs>
+) => {
   const { fullName, email, website, about } = req.body;
   const { id } = req.params;
 
@@ -126,10 +179,17 @@ export const updateProfile = async (req, res) => {
       updatedProfile,
     });
   } catch (error) {
-    res.status(500).json({
-      responseMessage: 'profile creation failed: please try again',
-      error: error.message,
-    });
+    if (error instanceof Error) {
+      res.status(500).json({
+        responseMessage: 'profile creation failed: please try again',
+        error: error.message,
+      });
+    } else {
+      res.status(500).json({
+        responseMessage: 'an error occurred',
+        error: error,
+      });
+    }
   }
 };
 
@@ -137,7 +197,14 @@ export const updateProfile = async (req, res) => {
 // request | route: DELETE | "/api/v1/profiles/delete-profile/:id"
 // access: Public
 
-export const deleteProfile = async (req, res) => {
+type deletedProfileResponse = {
+  deletedProfile?: ProfileSpecs | null;
+} & ResponseSpecs;
+
+export const deleteProfile = async (
+  req: Request<{ id: string }, deletedProfileResponse, deletedProfileResponse>,
+  res: Response
+) => {
   const { id } = req.params;
   //   console.log(id);
 
@@ -157,9 +224,16 @@ export const deleteProfile = async (req, res) => {
       deletedProfile,
     });
   } catch (error) {
-    res.status(500).json({
-      responseMessage: 'profile creation failed: please try again',
-      error: error.message,
-    });
+    if (error instanceof Error) {
+      res.status(500).json({
+        responseMessage: 'profile creation failed: please try again',
+        error: error.message,
+      });
+    } else {
+      res.status(500).json({
+        responseMessage: 'an error occurred',
+        error: error,
+      });
+    }
   }
 };
