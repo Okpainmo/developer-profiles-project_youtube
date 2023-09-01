@@ -57,9 +57,7 @@ function AddProfile() {
         requestType='create'
       />
       <header className='text-center mb-10 sm:mb-16'>
-        <h1
-          className={`${poppins} text-blue-900 text-2xl sm:text-3xl font-semibold`}
-        >
+        <h1 className='poppins text-blue-900 text-2xl sm:text-3xl font-bold'>
           Add Developer Profile
         </h1>
         <p className='text-[16px] mt-3'>

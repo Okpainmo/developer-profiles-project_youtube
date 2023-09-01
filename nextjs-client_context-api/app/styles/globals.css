@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.nunito_sans {
+  font-family: var(--font-nunito_sans);
+}
+ 
+.poppins {
+  font-family: var(--font-poppins);
+}
