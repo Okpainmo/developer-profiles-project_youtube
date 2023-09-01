@@ -1,0 +1,11 @@
+{
+  "eslint.workingDirectories": [
+    "./html-client",
+    "./server",
+    "./assets",
+    "./reactjs-client",
+    "./reactjs-client_context-api",
+    "./nextjs-client_context-api"
+  ]
+  // "git.ignoreLimitWarning": true
+}
