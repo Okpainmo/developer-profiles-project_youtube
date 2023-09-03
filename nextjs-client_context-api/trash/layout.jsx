@@ -1,6 +1,6 @@
-import HomeContextProvider from './context/HomeContext';
+import HomeContextProvider from '../app/(home)/context/HomeContext';
 import './styles/globals.css';
-import { nunito_sans, poppins } from './utils/fonts';
+import { nunito_sans, poppins } from '../app/utils/fonts';
 
 export default function RootLayout({ children }) {
   return (

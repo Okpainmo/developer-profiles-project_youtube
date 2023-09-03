@@ -3,7 +3,7 @@
 import React, { useContext } from 'react';
 import Image from 'next/image';
 import { HomeContext } from '../context/HomeContext';
-import deleteIconImage from '../assets/images/delete-icon.png';
+import deleteIconImage from '../../assets/images/delete-icon.png';
 
 function ProfileCardAvatar({ id }) {
   const { handleSetProfile, handleShowModal } = useContext(HomeContext);

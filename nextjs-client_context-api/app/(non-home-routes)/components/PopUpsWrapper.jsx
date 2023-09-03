@@ -4,7 +4,7 @@ import React from 'react';
 
 function PopUpsWrapper({ showLoadingModal, showSuccessModal, requestType }) {
   return (
-    <section className='pop-ups-wrapper'>
+    <section className='pop-ups-wrapper relative'>
       {/* 1. pre-loader modal - loading  */}
 
       <div
