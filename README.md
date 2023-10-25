@@ -1,10 +1,9 @@
 # Developer-profiles-project_youtube
+
 This project is a super-cool project to teach developers how to build full-stack projects with the MERN stack. The project will cover 
 how to build the same front-end with plain HTML, ReactJS, and NextJs. All three front-end will be styled with tailwindcss.
 
 **Look out for two branches(one for Javascript builds and the other for Typescript builds).**
-
-The project is for a Youtube MERN stack tutorial series.
 
 ## Live site
 
@@ -12,7 +11,7 @@ The project is live here - https://developer-profiles-project-youtube.vercel.app
 
 ## Youtube link
 
-You can find the Youtube tutorial of the project here - 
+You can find the YouTube playlist of the complete project here - https://www.youtube.com/playlist?list=PLELl52UgYR5H-wBGiSHa5runPgBSCvzYq
 
 ## Screenshot
 
@@ -22,6 +21,3 @@ You can find the Youtube tutorial of the project here -
 ![image](./assets/images/delete-prompt-ui.png)
 
 
-## Tailwindcss watch command
-
-npx tailwindcss -i ./styles/src/main.css -o ./styles/dist/main-output.css --watch
