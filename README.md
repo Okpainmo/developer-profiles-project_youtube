@@ -2,6 +2,8 @@
 This project is a super-cool project to teach developers how to build full-stack projects with the MERN stack. The project will cover 
 how to build the same front-end with plain HTML, ReactJS, and NextJs. All three front-end will be styled with tailwindcss.
 
+**Look out for two branches(one for Javascript builds and the other for Typescript builds).**
+
 The project is for a Youtube MERN stack tutorial series.
 
 ## Live site
